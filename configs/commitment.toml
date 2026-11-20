@@ -1,0 +1,29 @@
+# Experiment A: order commitment under instantaneous ("atomic") schedule installation.
+#
+# This is the subset of the archived E3 study (research archive: configs/studies.toml)
+# that the report uses. Seeds are keyed by (study key 329, split, replication, stream,
+# lane), so every run here reproduces the archived row for the same (cell, policy, rep)
+# exactly; the subset only drops policies the report does not discuss.
+#
+# Horizon: warm-up 300 s, cohort = vehicles requesting in [300, 900) s, requests until
+# 1020 s, then drain. Default motion: 8 m approach, V = 6 m/s, a = b = 3 m/s^2,
+# cross-lane clearance h = 3 s, same-lane headway h_f = 3 s.
+
+study = 329                 # scenario key (scenario.STUDY_KEY); not configurable in the archived runner
+condition = "default"
+bootstrap_seed = 30000
+bootstrap_draws = 10000
+
+# Tuning split: choose the freeze horizon per (rho, sigma) cell by minimum mean delay.
+[tune]
+reps = 16
+rho = [0.3, 0.5, 0.7, 0.8, 0.9, 0.95]
+sigma = [0.0, 0.25, 0.5, 1.0]
+policies = ["rolling", "freeze_0", "freeze_1", "freeze_2", "freeze_4", "freeze_6", "freeze_8", "freeze_inf"]
+
+# Held-out test split: compare flexible and committed orders at the highest noise level.
+[test]
+reps = 60
+rho = [0.3, 0.5, 0.7, 0.8, 0.9, 0.95]
+sigma = [1.0]
+policies = ["rolling", "fcfs", "freeze_4", "freeze_inf", "adaptive"]

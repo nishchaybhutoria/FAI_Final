@@ -1,0 +1,22 @@
+# Experiments B and C: installing one revised schedule at a single rolling decision ("fork").
+#
+# Held-out regime sweep, study key 5807 (research archive: configs/revision.toml, [sweep];
+# design frozen before the test streams were opened). Values are unchanged.
+# Every arm of a fork shares its public state, issued slots, nominal optimum and packet draws.
+
+study = 5807
+bootstrap_seed = 30000
+bootstrap_draws = 10000
+
+test = 32                   # streams per cell
+warmup = 20.0               # forks are observed for decisions in [warmup, win_end)
+win_end = 80.0
+t_arr_end = 90.0
+rho = [0.5, 0.75, 0.9]
+sigma = [0.5, 1.0]
+hf = [3.0, 1.5]             # same-lane headway (s); cross-lane clearance h = 3 s
+base = { rho = 0.75, sigma = 1.0, hf = 3.0 }
+
+# links: [one-way slot d (s), per-leg delivery probability p]; grant and ACK legs both use p
+links = [[0.0, 1.0], [0.1, 0.99], [0.1, 0.95], [0.1, 0.9]]
+primary_link = [0.1, 0.9]

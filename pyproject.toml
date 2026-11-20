@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lockorder"
+version = "2.0.0"
+description = "Safe revision, recovery and commitment of crossing schedules at autonomous intersections (CS 329 final project, IIT Gandhinagar)"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.11,<3.13"
+authors = [
+  { name = "Nishchay Bhutoria" }, { name = "Tanish Wanve" },
+  { name = "Swayam Borate" }, { name = "D A S K R Manognya" },
+]
+dependencies = ["numpy==1.26.4", "scipy==1.11.4", "pandas==2.1.4", "matplotlib==3.8.4"]
+
+[project.optional-dependencies]
+test = ["pytest>=7", "hypothesis>=6"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

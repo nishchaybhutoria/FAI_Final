@@ -1,0 +1,52 @@
+# Retransmission study (study key 5809). Design record: docs/retransmission_design.md.
+# Keys 329, 5807, 5808, 7319 and 9431 belong to earlier studies and are not reused.
+# Full-stream horizon of the archived E3 study and the closed loop (study 5808):
+# requests to 1,020 s, cohort requested in [300, 900) s. sigma = 1, default motion.
+# A link cell is (rho, d, q): one-way slot d seconds, independent erasure q per leg (u = v = 1 - q).
+
+study = 5809
+pilot = 4
+test = 60
+sigma = 1.0
+bootstrap_seed = 30000
+bootstrap_draws = 10000
+band = 0.1
+base = { rho = 0.75, d = 0.1, q = 0.1 }
+
+# Arms (experiments/retransmission/run.py):
+#   atomic_rolling, atomic_fcfs   unmodified engine (instantaneous installation; references)
+#   k0          unchanged one-attempt closed loop (closed_loop.ClosedLoop), rolling target
+#   k0_log      RetryLoop budget 0 (must equal k0 exactly; adds per-move logs)
+#   k1, k2      blind retransmission, 1 or 2 extra transmissions per update
+#   aware2      time-aware rule, budget 2 (retransmit / issue late only if it still pays, else query)
+#   oracle      one attempt with reliable, informative feedback (comparator, not a protocol)
+#   handoff_*   same, with one-detour handoffs; freeze_* the same with full order commitment
+
+[[block]]
+name = "loss"
+rho = [0.5, 0.75]
+d = [0.1]
+q = [0.0, 0.01, 0.05, 0.1, 0.2]
+arms = ["atomic_rolling", "atomic_fcfs", "k0", "k0_log", "k1", "k2", "aware2", "oracle"]
+
+[[block]]
+name = "slot"
+rho = [0.5, 0.75]
+d = [0.05, 0.25, 0.5, 1.0]   # 0.5 and 1.0: boundary probe of the deadline mechanism (added after the pilot)
+q = [0.1]
+arms = ["k0", "k0_log", "k1", "k2", "aware2", "oracle"]
+
+[[block]]
+name = "mech"
+rho = [0.5, 0.75]
+d = [0.1]
+q = [0.1]
+arms = ["handoff_k0", "handoff_k2", "handoff_aware2", "freeze_k0", "freeze_k1"]
+
+[[block]]
+name = "burst"
+rho = [0.75]
+d = [0.1]
+q = [0.1]
+psi = 0.5
+arms = ["k0", "k1", "k2", "aware2"]

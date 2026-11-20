@@ -1,0 +1,15 @@
+Demo: one held-out stream (study 5809, rep 0), load 0.75, sigma 1, 10% loss per leg, 100 ms slots
+algorithm / installation                     mean delay    p95 pinned  retx unsafe  matches recorded run
+--------------------------------------------------------------------------------------------------
+Rolling, instantaneous install (idealized)        6.004  17.16     --    --      0  yes
+FCFS, instantaneous install (idealized)           6.290  15.87     --    --      0  yes
+Rolling, safe install, one attempt                7.260  17.65     28     0      0  yes
+Rolling, safe install, one retry                  6.301  15.87      4    32      0  yes
+Rolling, safe install, two retries                6.290  15.87      1    36      0  yes
+Rolling, reliable feedback (oracle)               6.290  15.87      0     0      0  yes
+Rolling + temporary bookings, two retries         6.154  15.74      1    39      0  yes
+Lock every order, safe install, one retry         6.314  15.87      4    32      0  yes
+
+mean delay / p95: cohort delay in s per vehicle (entry time minus readiness time);
+pinned: vehicles left with two protected bookings after a lost message; retx: retransmissions;
+unsafe: safety-audit violations (clearance, FIFO, physical feasibility, ledger).

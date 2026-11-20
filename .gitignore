@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+.pytest_cache/
+.hypothesis/
+
+# Regenerated outputs (recorded data live in results/data and are tracked)
+results/rerun/
+results/check/
+
+# LaTeX by-products (the final PDF report/CS329_Final_Report.pdf is tracked)
+report/*.aux
+report/*.bbl
+report/*.blg
+report/*.log
+report/*.out
+report/*.toc
+report/*.loa
+report/build.txt
+report/main.pdf
+
+# Editors and OS
+.DS_Store
+.vscode/
+.idea/
